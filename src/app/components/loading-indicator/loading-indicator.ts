@@ -1,30 +1,29 @@
-import { Component, OnInit, Input, ContentChild, TemplateRef } from '@angular/core';
+import { Component, ContentChild, Input, OnInit, TemplateRef } from '@angular/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { AsyncPipe, NgTemplateOutlet} from '@angular/common';
+import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 import { Observable, tap } from 'rxjs';
 import { LoadingService } from '../../services/loading-service';
 import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
 
-
 @Component({
-  selector: 'app-spinner-container',
+  selector: 'app-loading-indicator',
   imports: [MatProgressSpinnerModule, AsyncPipe, NgTemplateOutlet],
-  templateUrl: './spinner-container.html',
-  styleUrl: './spinner-container.scss',
+  templateUrl: './loading-indicator.html',
+  styleUrl: './loading-indicator.scss',
 })
-export class SpinnerContainer implements OnInit {
+export class LoadingIndicator implements OnInit {
 
-  loading$: Observable<boolean>;
+  public loading$: Observable<boolean>;
 
-  @Input() detectRouteTransitions: boolean = false; 
+  @Input() detectRouteTransitions: boolean = false;
 
   @ContentChild("loading") customLoadingIndicator: TemplateRef<any>;
 
   constructor(
-     private loadingService: LoadingService,
-     private router: Router
+    private loadingService: LoadingService,
+    private router: Router,
   ) {
-   this.loading$ = this.loadingService.loading$;
+    this.loading$ = this.loadingService.loading$;
   }
 
   ngOnInit(): void {
@@ -37,7 +36,8 @@ export class SpinnerContainer implements OnInit {
             this.loadingService.loadingOff();
           }
         })
-      )
+      );
     }
   }
+
 }
